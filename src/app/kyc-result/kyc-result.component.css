@@ -1,0 +1,120 @@
+/* Style the whole result container */
+.kyc-result-container {
+    font-family: Arial, sans-serif;
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+  }
+  
+  /* Style for the message */
+  .result-header .message {
+    font-size: 1.2em;
+    font-weight: bold;
+    /* color: #4caf50; */
+    margin-bottom: 20px;
+  }
+  
+  /* The container for the gauge */
+  .gauge {
+    position: relative;
+    width: 200px;
+    height: 100px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+  }
+  
+  /* Circle structure for the gauge */
+  .gauge-circle {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+    background-color: #e0e0e0;
+    overflow: hidden;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Fill color for the gauge */
+  .gauge-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #4caf50;
+    transform-origin: center bottom;
+    transform: rotate(0deg);
+    transition: transform 1s ease-out;
+  }
+  
+  /* The mask for the gauge */
+  .gauge-mask {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background-color: #fff;
+  }
+  
+  /* Text for displaying percentage */
+  .percentage-text {
+    font-size: 1.5em;
+    color: #333;
+    position: absolute;
+    top: 20px;
+    width: 100%;
+  }
+  
+  /* Styling for the data table */
+  .data-table {
+    margin-top: 30px;
+    text-align: left;
+  }
+  
+  .data-table table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .data-table td {
+    padding: 8px 12px;
+    border: 1px solid #e0e0e0;
+  }
+  
+  /* Toast notification */
+  .message {
+    display: inline-block;
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+    transition: opacity 0.5s ease-in-out;
+  }
+  
+  .message.ng-hide {
+    opacity: 0;
+  }
+  .passport-photo {
+    width: 100px; /* Customize the size of the passport photo */
+    height: 100px;
+    border-radius: 20%;
+    overflow: hidden;
+    border: 2px solid #000; /* Black border around the photo */
+    background-color: #f0f0f0; /* Light grey background */
+  }
+  
+  .passport-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure the image covers the entire area */
+  }
+  
+  

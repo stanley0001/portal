@@ -1,0 +1,97 @@
+<div class="kyc-result-container" #responseContainer>
+  <div class="result-header">
+    <div class="message" *ngIf="showToast">{{ resultData?.message }}</div>
+  </div>
+
+  <div class="gauge">
+    <div class="gauge-circle">
+      <div class="gauge-mask"></div>
+      <div class="gauge-fill" [ngStyle]="{ transform: 'rotate(' + percentageDeg + 'deg)' }"></div>
+    </div>
+    <div class="percentage-text">
+      <span>{{ resultData?.parcentage }}%</span>
+    </div>
+  </div>
+
+  <div class="data-table">
+    <ng-container *ngIf="displayData.length > 0; else noData">
+      <table>
+        <tr *ngFor="let item of displayData">
+          <td><strong>{{ item.key | titlecase }}:</strong></td>
+          <td>
+            <div *ngIf="isPhoto(item.value)">
+              <div class="passport-photo">
+                <img [src]="item.value" alt="Passport Photo" class="passport-img"/>
+              </div>
+            </div>
+
+            <span *ngIf="!isObject(item.value) && !isArray(item.value) && !isPhoto(item.value)">{{ item.value }}</span>
+      
+            <div *ngIf="isArray(item.value)">
+              <table class="nested-table">
+                <tr *ngFor="let subItem of item.value">
+                  <td>
+                    <div *ngIf="isObject(subItem)">
+                      <table class="nested-table">
+                        <tr *ngFor="let subKey of objectKeys(subItem)">
+                          <td><strong>{{ subKey | titlecase }}:</strong></td>
+                          <td>{{ subItem[subKey] }}</td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div *ngIf="!isObject(subItem)">
+                      {{ subItem }}
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <div *ngIf="isObject(item.value)" class="nested-list mt-2">
+              <table class="nested-table">
+                <tr *ngFor="let subKey of objectKeys(item.value)">
+                  <td><strong>{{ subKey | titlecase }}:</strong></td>
+                  <td>
+                    <div *ngIf="isObject(item.value[subKey])">
+                      <table class="nested-table">
+                        <tr *ngFor="let subKeyi of objectKeys(item.value[subKey])">
+                          <td><strong>{{ subKeyi | titlecase }}:</strong></td>
+                          <td>{{ item.value[subKey][subKeyi] }}</td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div *ngIf="isArray(item.value[subKey])">
+                      <table class="nested-table">
+                        <tr *ngFor="let subItem of item.value[subKey]">
+                          <td>
+                            <div *ngIf="isObject(subItem)">
+                              <table class="nested-table">
+                                <tr *ngFor="let subKeyi of objectKeys(subItem)">
+                                  <td><strong>{{ subKeyi | titlecase }}:</strong></td>
+                                  <td>{{ subItem[subKeyi] }}</td>
+                                </tr>
+                              </table>
+                            </div>
+                            <div *ngIf="!isObject(subItem)">
+                              {{ subItem }}
+                            </div>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                    <span *ngIf="!isObject(item.value[subKey]) && !isArray(item.value[subKey])">
+                      {{ item.value[subKey] }}
+                    </span>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </ng-container>
+    <ng-template #noData>
+      <p>No data available.</p>
+    </ng-template>
+  </div>
+</div>

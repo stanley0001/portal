@@ -1,0 +1,99 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header pb-0 bg-primary text-white">
+        <h5 class="mb-0">KYC Module (Document Authentication)</h5>
+      </div>
+
+      <div class="card-body">
+        <!-- Navigation Tabs for Queries and Reports -->
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a class="nav-link" [ngClass]="{'active': selectedTab === 'queries'}" (click)="selectedTab = 'queries'">Individual Queries</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [ngClass]="{'active': selectedTab === 'reports'}" (click)="selectedTab = 'reports'">Reports</a>
+          </li>
+        </ul>
+
+        <!-- Individual Queries Section -->
+        <div *ngIf="selectedTab === 'queries'" class="mt-4">
+          <h6 class="text-secondary">Query Information</h6>
+          <div class="mb-3">
+            <label for="operationSelect" class="form-label">Select Operation</label>
+            <select id="operationSelect" class="form-select" [(ngModel)]="selectedOperation">
+              <option value="Q1">IPRS (ID/Passport/Alien)</option>
+              <option value="Q2">NTSA</option>
+              <option value="Q3">KRA</option>
+              <option value="Q4">DMVIC</option>
+              <option value="Q5">Document Reader (OCR)</option>
+            </select>
+          </div>
+
+          <!-- Dynamic Fields Based on Operation Selection -->
+          <div *ngIf="selectedOperation === 'Q1'" class="mb-3">
+            <label for="idNumber" class="form-label">ID/Passport/Alien Card Number</label>
+            <input type="text" id="idNumber" [(ngModel)]="idNumber" class="form-control" placeholder="Enter ID or Passport Number" />
+          </div>
+
+          <div *ngIf="selectedOperation === 'Q2'" class="mb-3">
+            <label for="vehicleReg" class="form-label">Vehicle Registration Number</label>
+            <input type="text" id="vehicleReg" [(ngModel)]="vehicleReg" class="form-control" placeholder="Enter Vehicle Registration Number" />
+          </div>
+
+          <div *ngIf="selectedOperation === 'Q3'" class="mb-3">
+            <label for="taxId" class="form-label">Tax ID</label>
+            <input type="text" id="taxId" [(ngModel)]="taxId" class="form-control" placeholder="Enter Tax ID" />
+          </div>
+
+          <div *ngIf="selectedOperation === 'Q4'" class="mb-3">
+            <label for="insurancePolicy" class="form-label">Insurance Policy Number</label>
+            <input type="text" id="insurancePolicy" [(ngModel)]="insurancePolicy" class="form-control" placeholder="Enter Insurance Policy Number" />
+          </div>
+
+          <!-- OCR Section with Document Type Dropdown -->
+          <div *ngIf="selectedOperation === 'Q5'" class="mb-3">
+            <div class="mt-2">
+              <label for="documentTypeSelect" class="form-label">Select Document Type</label>
+              <select id="documentTypeSelect" class="form-select" [(ngModel)]="selectedDocumentType">
+                <option value="passport">Passport</option>
+                <option value="idCard">ID Card</option>
+                <option value="driverLicense">Driver's License</option>
+                <option value="birthCertificate">Birth Certificate</option>
+              </select>
+            </div>
+            <label for="fileUpload" class="form-label">Upload Document (OCR)</label>
+            <input type="file" id="fileUpload" (change)="onFileSelected($event)" class="form-control" />
+            <button class="btn btn-success mt-3" (click)="onUpload()">Upload</button>
+          </div>
+
+          <button class="btn btn-primary mt-3" (click)="onQuery()">Submit Query</button>
+
+          <!-- Query Results -->
+          <div *ngIf="responseData" class="mt-4">
+            <h6 class="text-secondary">Query Results</h6>
+            <app-kyc-result [resultData]="responseData" resultType="selectedOperation"></app-kyc-result>
+            <!-- <pre>{{ responseData | json }}</pre> -->
+            <button class="btn btn-secondary mt-2" (click)="downloadPDF()">Download PDF</button>
+          </div>
+        </div>
+
+        <!-- Reports Section -->
+        <div *ngIf="selectedTab === 'reports'" class="mt-4">
+          <h6 class="text-secondary">Generate Reports by Date</h6>
+          <div class="d-flex mb-3">
+            <input type="date" [(ngModel)]="startDate" class="form-control me-2" placeholder="Start Date" />
+            <input type="date" [(ngModel)]="endDate" class="form-control" placeholder="End Date" />
+          </div>
+          <button class="btn btn-primary" (click)="onSearch()">Generate Report</button>
+
+          <!-- Report Results -->
+          <div *ngIf="responseData" class="mt-4">
+            <h6 class="text-secondary">Report Results</h6>
+            <pre>{{ responseData | json }}</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
