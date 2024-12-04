@@ -22,21 +22,38 @@
           <div class="mb-3">
             <label for="operationSelect" class="form-label">Select Operation</label>
             <select id="operationSelect" class="form-select" [(ngModel)]="selectedOperation">
-              <option value="Q1">IPRS (ID/Passport/Alien)</option>
-              <option value="Q2">NTSA</option>
-              <option value="Q3">KRA</option>
+              <option value="IPRS">IPRS</option>
+              <option value="NTSA">NTSA</option>
+              <option value="KRA">KRA</option>
               <option value="Q4">DMVIC</option>
               <option value="Q5">Document Reader (OCR)</option>
             </select>
           </div>
-
+          <div *ngIf="selectedOperation === 'IPRS' || selectedOperation === 'KRA'" class="mb-3">
+            <div class="mt-2">
+              <label for="documentTypeSelect" class="form-label">Select Document Type</label>
+              <select id="documentTypeSelect" class="form-select" [(ngModel)]="selectedDocumentType">
+                <option value="NATIONAL_ID">Kenyan ID Number</option>
+                <option value="PASSPORT">Passport</option>
+                <option value="ALIEN_ID">ALIEN ID</option>
+              </select>
+            </div>
+          </div>
           <!-- Dynamic Fields Based on Operation Selection -->
-          <div *ngIf="selectedOperation === 'Q1'" class="mb-3">
-            <label for="idNumber" class="form-label">ID/Passport/Alien Card Number</label>
-            <input type="text" id="idNumber" [(ngModel)]="idNumber" class="form-control" placeholder="Enter ID or Passport Number" />
+          <div *ngIf="(selectedDocumentType === 'NATIONAL_ID') && (selectedOperation === 'IPRS' || selectedOperation === 'KRA')" class="mb-3">
+            <label for="idNumber" class="form-label">ID Card Number</label>
+            <input type="text" id="idNumber" [(ngModel)]="idNumber" class="form-control" placeholder="Enter ID Number" />
+          </div>
+          <div *ngIf="(selectedDocumentType === 'PASSPORT') && (selectedOperation === 'IPRS' || selectedOperation === 'KRA')" class="mb-3">
+            <label for="idNumber" class="form-label">Passport Number</label>
+            <input type="text" id="idNumber" [(ngModel)]="idNumber" class="form-control" placeholder="Enter Passport Number" />
+          </div>
+          <div *ngIf="(selectedDocumentType === 'ALIEN_ID') && (selectedOperation === 'IPRS' || selectedOperation === 'KRA')" class="mb-3">
+            <label for="idNumber" class="form-label">Alien Card Number</label>
+            <input type="text" id="idNumber" [(ngModel)]="idNumber" class="form-control" placeholder="Enter Alien ID Number" />
           </div>
 
-          <div *ngIf="selectedOperation === 'Q2'" class="mb-3">
+          <div *ngIf="selectedOperation === 'NTSA'" class="mb-3">
             <label for="vehicleReg" class="form-label">Vehicle Registration Number</label>
             <input type="text" id="vehicleReg" [(ngModel)]="vehicleReg" class="form-control" placeholder="Enter Vehicle Registration Number" />
           </div>
@@ -56,10 +73,12 @@
             <div class="mt-2">
               <label for="documentTypeSelect" class="form-label">Select Document Type</label>
               <select id="documentTypeSelect" class="form-select" [(ngModel)]="selectedDocumentType">
-                <option value="passport">Passport</option>
-                <option value="idCard">ID Card</option>
-                <option value="driverLicense">Driver's License</option>
-                <option value="birthCertificate">Birth Certificate</option>
+                <option value="PASSPORT">Passport</option>
+                <option value="NATIONAL_ID">ID Card</option>
+                <option value="DRIVING_LICENCE">Driver's License</option>
+                <option value="KRA_CERTIFICATE">KRA Certificate</option>
+                <option value="LOGBOOK">LOGBOOK</option>
+                <option value="ALIEN_ID">ALIEN ID</option>
               </select>
             </div>
             <label for="fileUpload" class="form-label">Upload Document (OCR)</label>
@@ -77,22 +96,118 @@
             <button class="btn btn-secondary mt-2" (click)="downloadPDF()">Download PDF</button>
           </div>
         </div>
+<!-- Reports Section -->
+<div *ngIf="selectedTab === 'reports'" class="mt-4">
+  <h6 class="text-secondary">Generate Reports by Date</h6>
+  <div class="d-flex mb-3">
+    <input
+      type="date"
+      [(ngModel)]="startDate"
+      class="form-control me-2"
+      placeholder="Start Date"
+    />
+    <input
+      type="date"
+      [(ngModel)]="endDate"
+      class="form-control"
+      placeholder="End Date"
+    />
+  </div>
+  <button class="btn btn-primary" (click)="onSearch()">Generate Report</button>
 
-        <!-- Reports Section -->
-        <div *ngIf="selectedTab === 'reports'" class="mt-4">
-          <h6 class="text-secondary">Generate Reports by Date</h6>
-          <div class="d-flex mb-3">
-            <input type="date" [(ngModel)]="startDate" class="form-control me-2" placeholder="Start Date" />
-            <input type="date" [(ngModel)]="endDate" class="form-control" placeholder="End Date" />
-          </div>
-          <button class="btn btn-primary" (click)="onSearch()">Generate Report</button>
+  <!-- Report Results -->
+  <div *ngIf="paginatedData.length" class="mt-4">
+    <h6 class="text-secondary">Report Results</h6>
 
-          <!-- Report Results -->
-          <div *ngIf="responseData" class="mt-4">
-            <h6 class="text-secondary">Report Results</h6>
-            <pre>{{ responseData | json }}</pre>
-          </div>
-        </div>
+    <!-- Paginated Table -->
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>IP Address</th>
+            <th>Date Created</th>
+            <th>Unique Reference</th>
+            <th>Sources</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of paginatedData; let i = index">
+            <td>{{ i + 1 + (currentPage - 1) * itemsPerPage }}</td>
+            <td>{{ item.ipAddress }}</td>
+            <td>{{ item.dateTimeCreated | date: 'short' }}</td>
+            <td>{{ item.uniqueReference }}</td>
+            <td>{{ item.sources }}</td>
+            <td>{{ item.status }}</td>
+            <td>
+              <button
+                class="btn btn-link"
+                (click)="openModal(item)"
+              >
+                View Result
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination Controls -->
+    <nav>
+      <ul class="pagination">
+        <li
+          class="page-item"
+          [class.disabled]="currentPage === 1"
+        ></li>
+        <li
+          *ngFor="let page of [1, 2, 4, 5]"
+          class="page-item"
+          [class.active]="page === currentPage"
+        ></li>
+        <li
+          class="page-item"
+          [class.disabled]="currentPage === totalPages"
+        ></li>
+      </ul>
+    </nav>
+  </div>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="resultModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="resultModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="resultModalLabel">Result Details</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <app-kyc-result
+          *ngIf="selectedResult"
+          [resultData]="selectedResult"
+          resultType="selectedOperation"
+        ></app-kyc-result>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+        
       </div>
     </div>
   </div>

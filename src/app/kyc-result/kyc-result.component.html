@@ -3,7 +3,7 @@
     <div class="message" *ngIf="showToast">{{ resultData?.message }}</div>
   </div>
 
-  <div class="gauge">
+  <div class="gauge" *ngIf="resultData?.parcentage">
     <div class="gauge-circle">
       <div class="gauge-mask"></div>
       <div class="gauge-fill" [ngStyle]="{ transform: 'rotate(' + percentageDeg + 'deg)' }"></div>

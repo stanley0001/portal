@@ -4,7 +4,7 @@ import { HttpClientModule } from '@angular/common/http'; // Import HttpClientMod
 import { routes } from './app.routes';
 import { KycComponent } from './kyc/kyc.component'; 
 import { FormsModule } from '@angular/forms';
-import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts'; // For ngModel binding
 
 
 export const appConfig: ApplicationConfig = {
@@ -13,6 +13,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     FormsModule,
     KycComponent,
-    HttpClientModule, provideCharts(withDefaultRegisterables()), provideCharts(withDefaultRegisterables()) // Make sure HttpClientModule is provided
+    HttpClientModule, provideCharts(withDefaultRegisterables()) // Make sure HttpClientModule is provided
   ]
 };
