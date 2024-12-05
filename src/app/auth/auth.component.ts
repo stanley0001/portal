@@ -24,7 +24,7 @@ export class AuthComponent {
   otp = '';
   otpStep = false;
   errorMessage = '';
-  ws02Token='eyJ4NXQiOiJaakJrT1RNMlkyVmxaVGhqT1RjelpqUTNZalExWlRKbU56TTVOVE0wTVdFNU9XSTBNMk5pTTJGak1qRTFOREExWkRFNE1UWTJNVEk1Wmpsall6UmhNZyIsImtpZCI6IlpqQmtPVE0yWTJWbFpUaGpPVGN6WmpRM1lqUTFaVEptTnpNNU5UTTBNV0U1T1dJME0yTmlNMkZqTWpFMU5EQTFaREU0TVRZMk1USTVaamxqWXpSaE1nX1JTMjU2IiwidHlwIjoiYXQrand0IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiJTaWx2ZXJzdG9uZSIsImF1dCI6IkFQUExJQ0FUSU9OIiwiYXVkIjoiOHlKRXdXZk5JNDVmeTlKNDB3eFI0THNvV3ZzYSIsIm5iZiI6MTczMzIxMTI1NCwiYXpwIjoiOHlKRXdXZk5JNDVmeTlKNDB3eFI0THNvV3ZzYSIsInNjb3BlIjoiZGVmYXVsdCIsImlzcyI6Imh0dHBzOi8vYXBndy5tZnMuY28ua2U6OTQ0My9vYXV0aDIvdG9rZW4iLCJleHAiOjE3MzMyMTQ4NTQsImlhdCI6MTczMzIxMTI1NCwianRpIjoiOGQ4N2NkYWYtMDE3OS00NDRmLWFlMjctZDIwYzQwMzM2NDRkIiwiY2xpZW50X2lkIjoiOHlKRXdXZk5JNDVmeTlKNDB3eFI0THNvV3ZzYSJ9.F1pIMCgf2aRufL5nCIhoht_6X-hBJAn1LpgU2x_nW8mOubDfARGFa9x8Uz1yWc_Bg2NcvATh4F0GLEcj7pTVADCqryjaPV5pVEPod8P2RtcfztgfcRaHBYt2WBcTDcMvUEuPjiVCrE-D41e7VNeZyCe8muM3f0K6c_iyxFPI34J1Ry12JpDvAIKvQePhsLiVp_ojOtQrtnrt96dB2Em-DzXs-xJz-GD_dnXUNQp2GN18jRtUL43OdrO3rds1q-0cUUqI_55XcFTgiRR2FSVPAyVu1xYk1TrPl2LOsXoOM76Xs9rMHz--8ML3m4zwYxiXsuFWACB26kIRI6usqNNrwA';
+  ws02Token='eyJ4NXQiOiJaakJrT1RNMlkyVmxaVGhqT1RjelpqUTNZalExWlRKbU56TTVOVE0wTVdFNU9XSTBNMk5pTTJGak1qRTFOREExWkRFNE1UWTJNVEk1Wmpsall6UmhNZyIsImtpZCI6IlpqQmtPVE0yWTJWbFpUaGpPVGN6WmpRM1lqUTFaVEptTnpNNU5UTTBNV0U1T1dJME0yTmlNMkZqTWpFMU5EQTFaREU0TVRZMk1USTVaamxqWXpSaE1nX1JTMjU2IiwidHlwIjoiYXQrand0IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiJlNWYwZTlkOS01MDdhLTQ5ZjAtOGIxNC1mZWQ5OThkODBkN2IiLCJhdXQiOiJBUFBMSUNBVElPTiIsImF1ZCI6Imt2ak1FMWxaZG9WNXpmcXhTNXNDRjB6RFpTQWEiLCJuYmYiOjE3MzMzODc0MTgsImF6cCI6Imt2ak1FMWxaZG9WNXpmcXhTNXNDRjB6RFpTQWEiLCJzY29wZSI6ImRlZmF1bHQiLCJpc3MiOiJodHRwczovL2FwZ3cubWZzLmNvLmtlOjk0NDMvb2F1dGgyL3Rva2VuIiwiZXhwIjo5NjQwNDI0MzQxOCwiaWF0IjoxNzMzMzg3NDE4LCJqdGkiOiI3N2Q4MGIyYS0zMWRiLTQ2ODQtYTg2Mi1mNmZmZjdjODU2NDgiLCJjbGllbnRfaWQiOiJrdmpNRTFsWmRvVjV6ZnF4UzVzQ0YwekRaU0FhIn0.CgmoszOR651h2uEgrCVsTNekdiGarutbMXU2vKs54b5nuB3vkzG73LEFZcLihTMG5-T1GQH8KQ9iWl-5U3d7KmMbEEUrenSPA9049kut7vuvTblUGsCMscfK3RLXrVW0i8NXyxSLb2KsagNxfxhvxi6wi_EZGcPIQdDnLEdYUjzSWD_tpNS6QcKb15uHCaHbLxXM6rBYOTSL4wsf9YoOva6unqgVfGqvNhTZQ9EBr5AT0RwEhj7TBceYDdeDcm-B5lfOzKxNyvfyVUy3H1s0n7LwwOUyVWHkj2JoJtXpFCGfI0FbM4oIKSg2d66Xt7sAPIOfScYncqYr7CjvuRyLYw';
   constructor(private http: HttpClient,private router: Router,private authService: AuthService) {}
 
   onSubmitCredentials() {
@@ -72,9 +72,10 @@ export class AuthComponent {
     });
   }
   getKycToken(): void {
-    this.http.get("http://localhost:5052/kyc-token").subscribe({
+    const headers = this.getHeaders();
+    this.http.get("https://api-v2.mfs.co.ke/ocr/1.0/kyc-token",{headers}).subscribe({
       next: (response:any) => {
-        console.log(' kyc token response:', response);
+        // console.log(' kyc token response:', response);
         sessionStorage.setItem("appKey",response.appKey)
         sessionStorage.setItem("appToken",response.data.body.token)
       },

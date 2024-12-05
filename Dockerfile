@@ -1,28 +1,28 @@
-# FROM node:18 AS build-stage
+FROM node:18 AS build-stage
 
-# WORKDIR /app
+WORKDIR /app
 
-# COPY package*.json ./
+COPY package*.json ./
 
-# RUN npm install
+RUN npm install
 
-# COPY . .
+COPY . .
 
-# RUN npm run build --prod
+RUN npm run build --prod
 
-# FROM nginx:alpine AS production-stage
-
-# COPY --from=build-stage /app/dist/your-angular-app-name /usr/share/nginx/html
-
-# EXPOSE 3000
-
-# CMD ["nginx", "-g", "daemon off;"]
 FROM nginx:alpine AS production-stage
 
-WORKDIR /usr/share/nginx/html
-
-COPY ./dist/portal .
+COPY --from=build-stage /app/dist/your-angular-app-name /usr/share/nginx/html
 
 EXPOSE 3000
 
 CMD ["nginx", "-g", "daemon off;"]
+# FROM nginx:alpine AS production-stage
+
+# WORKDIR /usr/share/nginx/html
+
+# COPY ./dist/portal .
+
+# EXPOSE 3000
+
+# CMD ["nginx", "-g", "daemon off;"]

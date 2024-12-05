@@ -82,13 +82,14 @@ export class KycComponent {
 
 //   // Sends the selected file to the OCR API
   onUpload() {
-    console.log("uploading....")
-    console.log("this.selectedFile",this.selectedFile)
+    // console.log("uploading....")
+    // console.log("this.selectedFile",this.selectedFile)
+    const headers = this.getHeaders();
     if (this.selectedFile) {
       const formData = new FormData();
       formData.append('file', this.selectedFile);
       formData.append('file_type', this.selectedDocumentType);
-      this.http.post('http://127.0.0.1:5052/upload', formData).subscribe(
+      this.http.post('https://api-v2.mfs.co.ke/ocr/1.0/upload', formData, {headers}).subscribe(
         (res: any) =>{
           this.responseData = res
         },
