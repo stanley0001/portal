@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -42,7 +42,19 @@ export class AuthComponent {
       }
     });
   }
-
+  private getHeaders(): HttpHeaders {
+    const clientToken = sessionStorage.getItem('appToken');
+    const clientKey = sessionStorage.getItem('appKey');
+    const bearerToken = sessionStorage.getItem('ws02Token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Client-Token': clientToken ? clientToken : '', 
+      'Client-Key': clientKey ? clientKey : '',  
+      Authorization: bearerToken ? `Bearer ${bearerToken}` : '',
+    });
+    // ws02Token
+    return headers;
+  }
   onSubmitOtp() {
     const authData = {
       ...this.credentials,
