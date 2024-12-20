@@ -156,7 +156,7 @@ export class KycComponent {
     const clientKey = sessionStorage.getItem('appKey');
     const bearerToken = sessionStorage.getItem('ws02Token');
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
+      // 'Content-Type': 'application/json',
       'Client-Token': clientToken ? clientToken : '', 
       'Client-Key': clientKey ? clientKey : '',  
       Authorization: bearerToken ? `Bearer ${bearerToken}` : '',
